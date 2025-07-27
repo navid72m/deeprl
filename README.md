@@ -38,7 +38,7 @@ A comprehensive study repository for **"Deep Reinforcement Learning"** by Aske P
 | Chapter | Title | Status | Key Algorithms/Concepts |
 |---------|-------|--------|------------------------|
 | 1 | Introduction to Reinforcement Learning | 🔄 | MDP, Value Functions, Policy |
-| 2 | Multi-Armed Bandits | ⏳ | ε-greedy, UCB, Thompson Sampling |
+| 2 | [Core Concepts](chapters/chapter-02.md) | 🔄 | MDP, Bellman Equations, Value Functions |
 | 3 | Dynamic Programming | ⏳ | Value Iteration, Policy Iteration |
 | 4 | Monte Carlo Methods | ⏳ | MC Prediction, MC Control |
 | 5 | Temporal Difference Learning | ⏳ | TD(0), SARSA, Q-Learning |
