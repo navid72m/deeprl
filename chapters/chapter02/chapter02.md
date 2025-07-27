@@ -16,9 +16,9 @@
 ![The Agent-Environment Loop](rl-diagram.png)
 
 The fundamental cycle of reinforcement learning:
-1. Agent observes current state $s_t$
-2. Agent selects action $a_t$ based on policy $\pi(a|s)$
-3. Environment transitions to new state $s_{t+1}$ and provides reward $r_{t+1}$
+1. Agent observes current state `s_t`
+2. Agent selects action `a_t` based on policy `π(a|s)`
+3. Environment transitions to new state `s_{t+1}` and provides reward `r_{t+1}`
 4. Process repeats with agent learning from experience
 
 ## Sequential Decision Problems
@@ -41,50 +41,50 @@ The reinforcement learning cycle: Agent takes Action → Environment responds �
 - No need to remember historical states or external information
 - Mathematically: 
 
-$$P(S_{t+1} | S_t, A_t, S_{t-1}, \ldots, S_0) = P(S_{t+1} | S_t, A_t)$$
+P(S_{t+1} | S_t, A_t, S_{t-1}, ..., S_0) = P(S_{t+1} | S_t, A_t)
 
 ### MDP 5-Tuple Definition
 An MDP is formally defined as: 
 
-$$\langle S, A, T, R, \gamma \rangle$$
+⟨S, A, T, R, γ⟩
 
 1. **S**: Set of all possible states
 2. **A**: Set of all possible actions  
-3. **T**: Transition function - $P(s'|s,a)$ = probability of reaching state s' from state s taking action a
-4. **R**: Reward function - $R(s,a,s')$ = immediate reward for transition
-5. **γ (Gamma)**: Discount factor $(0 \leq \gamma \leq 1)$
+3. **T**: Transition function - `P(s'|s,a)` = probability of reaching state s' from state s taking action a
+4. **R**: Reward function - `R(s,a,s')` = immediate reward for transition
+5. **γ (Gamma)**: Discount factor `(0 ≤ γ ≤ 1)`
    - Controls importance of future vs. immediate rewards
-   - $\gamma = 0$: Only immediate rewards matter
-   - $\gamma = 1$: All future rewards equally important
-   - $\gamma < 1$: Future rewards are discounted
+   - `γ = 0`: Only immediate rewards matter
+   - `γ = 1`: All future rewards equally important
+   - `γ < 1`: Future rewards are discounted
 
 ## Value Functions & Bellman Equations
 
 ### State Value Function
-**$V^{\pi}(s)$**: Expected cumulative discounted reward starting from state $s$ following policy $\pi$
+**`V^π(s)`**: Expected cumulative discounted reward starting from state s following policy π
 
-$$V^{\pi}(s) = \mathbb{E}_{\pi}[G_t | S_t = s] = \mathbb{E}_{\pi}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t = s\right]$$
+V^π(s) = E_π[G_t | S_t = s] = E_π[Σ_{k=0}^∞ γ^k R_{t+k+1} | S_t = s]
 
 ### Action Value Function (Q-Function)
-**$Q^{\pi}(s,a)$**: Expected cumulative discounted reward starting from state $s$, taking action $a$, then following policy $\pi$
+**`Q^π(s,a)`**: Expected cumulative discounted reward starting from state s, taking action a, then following policy π
 
-$$Q^{\pi}(s,a) = \mathbb{E}_{\pi}[G_t | S_t = s, A_t = a]$$
+Q^π(s,a) = E_π[G_t | S_t = s, A_t = a]
 
 ### Bellman Equations
 
 #### Bellman Equation for State Values
-$$V^{\pi}(s) = \sum_{a} \pi(a|s) \sum_{s'} P(s'|s,a)\left[R(s,a,s') + \gamma V^{\pi}(s')\right]$$
+V^π(s) = Σ_a π(a|s) Σ_{s'} P(s'|s,a)[R(s,a,s') + γ V^π(s')]
 
 **Intuition**: Value of current state = immediate reward + discounted value of next states
 
 #### Bellman Equation for Action Values  
-$$Q^{\pi}(s,a) = \sum_{s'} P(s'|s,a)\left[R(s,a,s') + \gamma \sum_{a'} \pi(a'|s')Q^{\pi}(s',a')\right]$$
+Q^π(s,a) = Σ_{s'} P(s'|s,a)[R(s,a,s') + γ Σ_{a'} π(a'|s')Q^π(s',a')]
 
 #### Bellman Optimality Equations
-For optimal policy $\pi^*$:
-$$V^*(s) = \max_{a} \sum_{s'} P(s'|s,a)\left[R(s,a,s') + \gamma V^*(s')\right]$$
+For optimal policy `π*`:
+V*(s) = max_a Σ_{s'} P(s'|s,a)[R(s,a,s') + γ V*(s')]
 
-$$Q^*(s,a) = \sum_{s'} P(s'|s,a)\left[R(s,a,s') + \gamma \max_{a'} Q^*(s',a')\right]$$
+Q*(s,a) = Σ_{s'} P(s'|s,a)[R(s,a,s') + γ max_{a'} Q*(s',a')]
 
 ## Traces and Eligibility
 
@@ -95,14 +95,15 @@ $$Q^*(s,a) = \sum_{s'} P(s'|s,a)\left[R(s,a,s') + \gamma \max_{a'} Q^*(s',a')\ri
 
 ### Trace Types
 1. **Accumulating Traces**: 
-$$e_t(s) = \gamma\lambda e_{t-1}(s) + \mathbf{1}(S_t = s)$$
+e_t(s) = γλ e_{t-1}(s) + 𝟙(S_t = s)
 
 2. **Replacing Traces**: 
-$$e_t(s) = \begin{cases} \gamma \lambda e_{t-1}(s) & \text{if } S_t \neq s \\ 1 & \text{if } S_t = s \end{cases}$$
+e_t(s) = { γλ e_{t-1}(s)  if S_t ≠ s
+         { 1             if S_t = s
 
 Where:
-- $\lambda$ (lambda): Trace decay parameter $(0 \leq \lambda \leq 1)$
-- **1**$(S_t = s)$: Indicator function (1 if true, 0 otherwise)
+- `λ` (lambda): Trace decay parameter `(0 ≤ λ ≤ 1)`
+- **𝟙**`(S_t = s)`: Indicator function (1 if true, 0 otherwise)
 
 ### Benefits of Traces
 - **Faster learning**: Credit assignment happens immediately
@@ -112,12 +113,12 @@ Where:
 ## Key Mathematical Relationships
 
 ### Return (Cumulative Reward)
-$$G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$$
+G_t = R_{t+1} + γ R_{t+2} + γ² R_{t+3} + ... = Σ_{k=0}^∞ γ^k R_{t+k+1}
 
 ### Policy Relationship
-$$V^{\pi}(s) = \sum_{a} \pi(a|s) Q^{\pi}(s,a)$$
+V^π(s) = Σ_a π(a|s) Q^π(s,a)
 
-$$Q^{\pi}(s,a) = \sum_{s'} P(s'|s,a)\left[R(s,a,s') + \gamma V^{\pi}(s')\right]$$
+Q^π(s,a) = Σ_{s'} P(s'|s,a)[R(s,a,s') + γ V^π(s')]
 
 ## Important Insights
 
@@ -129,7 +130,7 @@ $$Q^{\pi}(s,a) = \sum_{s'} P(s'|s,a)\left[R(s,a,s') + \gamma V^{\pi}(s')\right]$
 
 ## Questions & Reflections
 
-- How does the discount factor $\gamma$ affect learning behavior in different environments?
+- How does the discount factor `γ` affect learning behavior in different environments?
 - When might the Markov assumption be violated in real-world problems?
 - How do eligibility traces change the learning dynamics compared to basic TD methods?
 - What's the relationship between policy evaluation and the Bellman equation?
